@@ -16,8 +16,9 @@
 10. spring-test
 11. jUnit 4.12
 
-<h3>SQL</h3>
-```
+<h3>1. SQL</h3>
+
+```sql
 CREATE TABLE mvc_board(
 	bid number(4) PRIMARY KEY,  -- 게시판 PRIMARY KEY 
 	bname varchar2(20),   -- 작성자
@@ -30,3 +31,48 @@ CREATE TABLE mvc_board(
 	bindent number(4) -- 트리구조의 레벨
 );
 ```
+
+<h3>2. replyMapper와 replyMapper.xml</h3>
+
+```java
+public interface ReplyMapper {
+	public int insert(ReplyVO vo);
+	public List<ReplyVO> replyList(); 
+}
+```
+<img width="607" alt="image" src="https://user-images.githubusercontent.com/81161819/157589049-1e9294a2-0fc4-429f-bbb0-05981815177f.png">
+- replyMapper Test코드 작성 : O
+
+<h3>3. replyService </h3>
+
+```java
+public interface ReplyService {
+	public List<ReplyVO> getList();
+}
+```
+- replyService Test코드 작성 : O
+
+<h3>4. replyController </h3>
+
+```java
+@Controller
+public class ReplyController {
+	
+	@Setter(onMethod = @__(@Autowired))
+	private ReplyService service;
+	
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String home(Locale locale, Model model) {
+		
+		model.addAttribute("list", service.getList());
+		
+		return "home";
+	}
+	
+}
+```
+- ReplyController Test코드 작성 : O
+
+<h3>댓글 화면</h3>
+<img width="590" alt="image" src="https://user-images.githubusercontent.com/81161819/157589597-9b5b47b1-9649-4de2-9f86-1c518622cbe3.png">
+
