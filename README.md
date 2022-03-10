@@ -42,7 +42,7 @@ public interface ReplyMapper {
 ```
 <img width="607" alt="image" src="https://user-images.githubusercontent.com/81161819/157589049-1e9294a2-0fc4-429f-bbb0-05981815177f.png">
 - replyMapper Test코드 작성 : O
-
+https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/mapper/ReplyMapperTest.java
 <h3>3. replyService </h3>
 
 ```java
@@ -51,7 +51,7 @@ public interface ReplyService {
 }
 ```
 - replyService Test코드 작성 : O
-https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/mapper/ReplyMapperTest.java
+https://github.com/beginner0107/replyProject/tree/master/src/test/java/org/zerock/service
 <h3>4. replyController </h3>
 
 ```java
