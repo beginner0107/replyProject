@@ -51,7 +51,7 @@ public interface ReplyService {
 }
 ```
 - replyService Test코드 작성 : O
-
+https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/mapper/ReplyMapperTest.java
 <h3>4. replyController </h3>
 
 ```java
@@ -71,8 +71,9 @@ public class ReplyController {
 	
 }
 ```
-- ReplyController Test코드 작성 : O
+- ReplyController Test코드 작성 : O<br>
 
+https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/controller/ReplyControllerTests.java
 <h3>댓글 화면</h3>
 <img width="590" alt="image" src="https://user-images.githubusercontent.com/81161819/157589597-9b5b47b1-9649-4de2-9f86-1c518622cbe3.png">
 
