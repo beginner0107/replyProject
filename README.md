@@ -75,7 +75,7 @@ public class ReplyController {
 
 https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/controller/ReplyControllerTests.java
 <h3>댓글 화면</h3>
-<img width="590" alt="image" src="https://user-images.githubusercontent.com/81161819/157589597-9b5b47b1-9649-4de2-9f86-1c518622cbe3.png">
+<img width="576" alt="image" src="https://user-images.githubusercontent.com/81161819/157805898-afec7fe9-9981-465f-aab1-0528b9e93959.png">
 
 <h2>3.11일 추가한 부분</h2>
 
