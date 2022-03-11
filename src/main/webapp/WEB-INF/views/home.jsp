@@ -80,10 +80,10 @@ $(document).ready(function(){
 					for(var j=0; j<list[i].bindent; j++){
 						str += "－ ";
 					}
-					str += "("+list[i].bstep+")번의 댓글";
+					str += "<font color ='green'>("+list[i].bstep+")번의 댓글</font>";
 				}
 				str += " [";
-				str += list[i].bid+"] "+list[i].bname+"</strong>";
+				str += list[i].bid+"] / writer : "+list[i].bname+"</strong>";
 				str += "	<small class='pull-right text-muted'>"+replyService.displayTime(list[i].bdate)
 				+"</small></div>";
 				str += "	<p>"+list[i].bcontent+"</p></div></li>"; 
