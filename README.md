@@ -77,7 +77,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 <h3>댓글 화면</h3>
 <img width="590" alt="image" src="https://user-images.githubusercontent.com/81161819/157589597-9b5b47b1-9649-4de2-9f86-1c518622cbe3.png">
 
-<h2>3.11수정</h2>
+<h2>3.11일 추가한 부분</h2>
 
 * 댓글 목록을 REST로 불러오는 부분과, 계층적인 부분을 이쁘게는 아니지만 표시하는 부분을 구현하였다.
 
