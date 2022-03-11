@@ -79,7 +79,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 <h2>3.11일 추가한 부분</h2>
 
-* 댓글 목록을 REST로 불러오는 부분과, 계층적인 부분을 눈에  구현.
+* 댓글 목록을 REST로 불러오는 부분과, 계층적인 부분을 구현.
 
 <img width="375" alt="image" src="https://user-images.githubusercontent.com/81161819/157805605-3ba94147-2996-491c-8d56-5c1e615eecd8.png">
 
