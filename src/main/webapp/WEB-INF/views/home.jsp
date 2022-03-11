@@ -28,16 +28,16 @@
   	  	<td><c:out value="${reply.bid }"/></td>
   	  	<td>
   	  	<c:if test="${reply.bstep != 0 }">
+	  	  	<c:if test="${reply.bindent != 0 }">
+		  	  ㄴ
+		  	<c:forEach var="i" begin="0" end="${reply.bindent }">
+	    		<c:out value=">" />
+			</c:forEach>
+			</c:if>
 	  	  	<c:out value="${reply.bstep } 번 대댓글"/><br>
   	  	</c:if>
   	  	<c:out value="${reply.bcontent }"/></td>
-  	  	<c:if test="${reply.bindent != 0 }">
-	  	  <td>ㄴ
-	  	<c:forEach var="i" begin="0" end="${reply.bindent }">
-    		<c:out value=">" />
-		</c:forEach>
-	  	  <fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
-  	  	</c:if>
+	  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
   	  	<c:if test="${reply.bindent eq 0 }">
 	  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
   	  	</c:if>
@@ -72,19 +72,21 @@ $(document).ready(function(){
 				return;
 			}
 			for(var i = 0, len = list.length || 0; i<len; i++){
-				str += "<li class='left clearfix' data-rno='";
-				if(list[i].bindent != 0){
-					for(var j=0;j<list[i].bindent;j++){
-						str += "ㄴ";
-						console.log("이거 실행?");
-					}
-				}
+ 				str += "<li class='left clearfix' data-rno='";
 				str += list[i].bid+"'>";
-				str += "  <div><div class='header'><strong class='primary-font'>["
-				+list[i].bid+"] "+list[i].bname+"</strong>";
+				str += "  <div><div class='header'><strong class='primary-font'>";
+				if(list[i].bindent != 0){
+					str += "└";
+					for(var j=0; j<list[i].bindent; j++){
+						str += "－ ";
+					}
+					str += "("+list[i].bstep+")번의 댓글";
+				}
+				str += " [";
+				str += list[i].bid+"] "+list[i].bname+"</strong>";
 				str += "	<small class='pull-right text-muted'>"+replyService.displayTime(list[i].bdate)
 				+"</small></div>";
-				str += "	<p>"+list[i].bcontent+"</p></div></li>";
+				str += "	<p>"+list[i].bcontent+"</p></div></li>"; 
 			}
 			
 			replyUL.html(str);
