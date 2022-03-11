@@ -55,9 +55,9 @@ var replyService = (function(){
 				':',(ss>9?'':'0')+ss].join('');
 		}else{
 			var yy = dateObj.getFullYear();
-			var mm = dateObj.getMinutes();
-			var dd = dateObj.getSeconds();
-			
+			var mm = dateObj.getMonth()+1;
+			var dd = dateObj.getDate();
+			console.log("yy = " + yy + " mm = " + mm + " dd = " + dd);
 			return [yy, '/', (mm>9?'':'0')+mm,'/',
 			(dd>9?'':'0')+dd].join('');
 		}
