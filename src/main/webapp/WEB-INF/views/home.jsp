@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/js/reply.js"></script>
 <html>
 <head>
 	<title>Home</title>
@@ -48,5 +50,53 @@
   	</tbody>
   </table>
 </div>
+
+<div>
+	<ul class="chat">
+	</ul>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	var replyUL = $('.chat');
+	
+	showList();
+	
+	function showList(){
+		replyService.getList(function(list){
+			console.log(list);
+			
+			var str = "";
+			
+			if(list == null || list.length == 0){
+				return;
+			}
+			for(var i = 0, len = list.length || 0; i<len; i++){
+				str += "<li class='left clearfix' data-rno='";
+				if(list[i].bindent != 0){
+					for(var j=0;j<list[i].bindent;j++){
+						str += "ㄴ";
+						console.log("이거 실행?");
+					}
+				}
+				str += list[i].bid+"'>";
+				str += "  <div><div class='header'><strong class='primary-font'>["
+				+list[i].bid+"] "+list[i].bname+"</strong>";
+				str += "	<small class='pull-right text-muted'>"+replyService.displayTime(list[i].bdate)
+				+"</small></div>";
+				str += "	<p>"+list[i].bcontent+"</p></div></li>";
+			}
+			
+			replyUL.html(str);
+			
+			showReplyList();
+		});
+	} // end showList
+	
+	function showReplyList(){
+		
+	}
+});
+</script>
 </body>
 </html>
