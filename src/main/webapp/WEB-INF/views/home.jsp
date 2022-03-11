@@ -34,13 +34,13 @@
 	    		<c:out value=">" />
 			</c:forEach>
 			</c:if>
+	  	  	<c:if test="${reply.bindent eq 0 }">
+		  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
+	  	  	</c:if>
 	  	  	<c:out value="${reply.bstep } 번 대댓글"/><br>
   	  	</c:if>
   	  	<c:out value="${reply.bcontent }"/></td>
 	  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
-  	  	<c:if test="${reply.bindent eq 0 }">
-	  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
-  	  	</c:if>
   	  	<td><c:out value="${reply.bhit }"/></td>
   	  	<td><c:out value="${reply.bgroup }"/></td>
   	  	<td><c:out value="${reply.bstep }"/></td>
