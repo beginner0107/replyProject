@@ -81,5 +81,6 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 * 댓글 목록을 REST로 불러오는 부분과, 계층적인 부분을 눈에  구현.
 
-<img width="324" alt="image" src="https://user-images.githubusercontent.com/81161819/157804901-d76c9b92-ebfd-4994-bfb5-27f8036fca21.png">
+<img width="375" alt="image" src="https://user-images.githubusercontent.com/81161819/157805605-3ba94147-2996-491c-8d56-5c1e615eecd8.png">
+
 
