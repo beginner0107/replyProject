@@ -87,6 +87,9 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 코로나 이슈로 잠깐 끊겼었다.
 
 * 댓글 수정과 삭제를 REST 방식이 아닌 Ajax를 통해 비동기적으로 구현해보았다. 
+* 수정 버튼을 누르면 아래 댓글 입력 창에 작성자와 댓글 제목, 내용 등이 나타나고
+* 내용만 고칠 수 있으며 이를 수정할 수 있다.
+* 삭제는 바로 버튼을 누르면 삭제가 되게 만들어 놓았다.
 
 추후에 고칠 부분
 
