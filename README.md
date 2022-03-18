@@ -84,7 +84,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 <img width="375" alt="image" src="https://user-images.githubusercontent.com/81161819/157805605-3ba94147-2996-491c-8d56-5c1e615eecd8.png">
 
 <h2>3.19일 추가한 부분</h2>
-코로나 문제로 간간히 만들어 보았다..
+코로나 이슈로 잠깐 끊겼었다.
 
 * 댓글 수정과 삭제를 REST 방식이 아닌 Ajax를 통해 비동기적으로 구현해보았다. 
 * 계층형 댓글 달기는 아직 구현하지 못했다.
