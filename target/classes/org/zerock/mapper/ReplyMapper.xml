@@ -3,7 +3,7 @@
 <mapper namespace="org.zerock.mapper.ReplyMapper">
 <insert parameterType="org.zerock.domain.ReplyVO" id="insert">
 	INSERT INTO MVC_BOARD (bid, bname, btitle, bcontent, bhit, bgroup, bstep, bindent)
-	VALUES (bid_seq_idx.nextval, #{bname}, #{btitle}, #{bcontent},#{bhit}, #{bgroup}, #{bstep}, #{bindent})
+	VALUES (bid_seq_idx.nextval, #{bname}, #{btitle}, #{bcontent},#{bhit}, 0, #{bstep}, #{bindent})
 </insert>
 
 <select id="replyList" resultType="org.zerock.domain.ReplyVO">
@@ -12,4 +12,18 @@
 	CONNECT BY PRIOR BID  = BSTEP  
 	ORDER SIBLINGS BY BSTEP  asc, BID desc
 </select>
+
+<!-- 하나 가져오기 -->
+<select id="read" resultType="org.zerock.domain.ReplyVO">
+	SELECT * FROM MVC_BOARD WHERE bid = #{bid}
+</select>
+
+<!-- 수정하기 -->
+<update id="update" parameterType="org.zerock.domain.ReplyVO">
+	UPDATE MVC_BOARD set bcontent = #{bcontent} where bid = #{bid} 
+</update>
+
+<delete id="delete">
+	DELETE FROM MVC_BOARD WHERE bid = #{bid}
+</delete>
 </mapper>

@@ -25,4 +25,19 @@ public class ReplyServiceImpl implements ReplyService{
 		return mapper.insert(vo);
 	}
 
+	@Override
+	public int modify(ReplyVO vo) {
+		return mapper.update(vo);
+	}
+
+	@Override
+	public ReplyVO read(int bid) {
+		return mapper.read(bid);
+	}
+
+	@Override
+	public int delete(int bid) {
+		return mapper.delete(bid);
+	}
+
 }
