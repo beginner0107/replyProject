@@ -98,7 +98,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 <img width="823" alt="image" src="https://user-images.githubusercontent.com/81161819/159031868-4a8deb1c-82ab-4319-98e0-8c0231218a1c.png">
 
-<h2>3.22일 추가한 부분</h2>
+<h2>3.21일 추가한 부분</h2>
 
 * 댓글 등록, 수정, 삭제를 REST 방식으로 전환하였다.
 * 삭제 버튼을 누르면 바로 삭제가 이루어지지 않고 한번 물어보는 알림 창을 추가하였다.
