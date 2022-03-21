@@ -31,7 +31,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public ReplyVO read(int bid) {
+	public ReplyVO get(int bid) {
 		return mapper.read(bid);
 	}
 

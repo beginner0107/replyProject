@@ -8,6 +8,6 @@ public interface ReplyService {
 	public int insert(ReplyVO vo);
 	public List<ReplyVO> getList();
 	public int modify(ReplyVO vo);
-	public ReplyVO read(int bid);
+	public ReplyVO get(int bid);
 	public int delete(int bid);
 }
