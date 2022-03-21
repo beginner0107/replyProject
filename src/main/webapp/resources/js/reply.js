@@ -23,6 +23,18 @@ var replyService = (function(){
 		})
 	}
 	
+	function get(bid, callback, error){
+		$.get("/replies/" + bid + ".json", function(result){
+		  if(callback){
+			callback(result);
+		  }
+		}).fail(function(xhr, status, err){
+		  if(error){
+			error();
+		}
+	  });
+	}
+	
 	function getList(callback, error){
 		$.getJSON("/replies/comment.json",
 			function(data){
@@ -35,6 +47,46 @@ var replyService = (function(){
 					error();
 				}
 			});
+	}
+	
+	function update(reply, callback, error){
+		console.log("BID: " + reply.bid);
+		
+		$.ajax({
+		  type : 'put',
+		  url : '/replies/' + reply.bid,
+		  data : JSON.stringify(reply),
+		  contentType : "application/json; charset=utf-8",
+		  success : function(result, status, xhr){
+			if(callback){
+				callback(result);
+			}
+		  },
+		  error : function(xhr, status, er){
+			if(error){
+				error(er);
+			}
+		  }
+		});
+	}
+	
+	function remove(bid, callback, error){
+		$.ajax({
+		  type : 'delete',
+		  url : '/replies/' + bid,
+		  data: JSON.stringify({bid:bid}),
+		  contentType: "application/json; charset=utf-8",
+		  success : function(deleteResult, status, xhr){
+			if(callback){
+				callback(deleteResult);
+			}
+		},
+		  error : function(xhr, status, er){
+			  if(error){
+				  error(er);
+			  }
+		  }
+		});
 	}
 	
 	function displayTime(timeValue){
@@ -67,6 +119,9 @@ var replyService = (function(){
 	return {
 		add:add,
 		getList:getList,
-		displayTime:displayTime
+		displayTime:displayTime,
+		get:get,
+		remove:remove,
+		update:update
 		};
 })();
