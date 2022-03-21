@@ -2,6 +2,7 @@ package org.zerock.controller;
 
 import java.util.Locale;
 
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +44,7 @@ public class ReplyController {
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	@ResponseBody
 	public ReplyVO read(int bid) {
-		ReplyVO vo = service.read(bid);
+		ReplyVO vo = service.get(bid);
 		return vo;
 	}
 	
@@ -54,10 +55,10 @@ public class ReplyController {
 		return modify==1?"redirect:/" : "/";
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	@ResponseBody
-	public void delete(int bid) {
-		service.delete(bid);
-	}
+	/*
+	 * @Delete(value = "/delete")
+	 * 
+	 * @ResponseBody public void delete(int bid) { service.delete(bid); }
+	 */
 	
 }
