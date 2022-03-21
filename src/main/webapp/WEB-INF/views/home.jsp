@@ -57,7 +57,6 @@
 	<ul class="chat">
 	</ul>
 </div>
- <form method="post" role="form" action="/register">
 <div align="center">
   <table class="table" >
 	<tr>
@@ -77,49 +76,16 @@
 		<textarea id="bcontent" name="bcontent" rows="5" cols="100" id="bcontent"></textarea>
 	  </td>
 	  <td>
-	    <input type="submit" style="width:150;height:150;" value="등록" class="btn btn-primary">
+	    <input type="button" style="width:100;height:100;" value="등록" class="btn btn-primary">
 	  </td>
 	</tr>
   </table>
+  <input type="hidden" id="bid" value="">
   <input type="hidden" name="bstep" value="0">
   <input type="hidden" name="bindent" value="0" >
 </div>
-</form>
 <script type="text/javascript">
-function read(bid){
-	$.ajax({
-		url : "/read",
-		data : {bid : bid},
-		type : "GET",
-		dataType : "json",
-		success : function(data){
-			console.log(data);
-			$("#bname").val(data.bname);
-			$("#bname").attr("readonly",true);
-			$("#btitle").val(data.btitle);
-			$("#btitle").attr("readonly",true);
-			$("#bcontent").val(data.bcontent);
-			$("#bstep").val(data.bstep);
-			$("#bindent").val(data.bindent);
-			$(".btn").val("수정");
-		},
-		error : function(){
-			console.log('에러');
-		}
-	});
-}
-function eliminate(bid){
-	$.ajax({
-		url : "/delete",
-		data : {bid : bid},
-		type : "POST",
-		success : function(){
-			location.reload();
-		}
-	})
-}
 $(document).ready(function(){
-	
 	
 	var replyUL = $('.chat');
 	
@@ -135,7 +101,7 @@ $(document).ready(function(){
 				return;
 			}
 			for(var i = 0, len = list.length || 0; i<len; i++){
- 				str += "<li data-rno='";
+ 				str += "<li data-rid='";
 				str += list[i].bid+"'>";
 				str += "  <div><div class='header'><strong class='primary-font'>";
 				if(list[i].bindent != 0){
@@ -147,8 +113,9 @@ $(document).ready(function(){
 				}
 				str += " [";
 				str += list[i].bid+"]_작성자 : "+list[i].bname+"</strong>";
-				str += "&nbsp&nbsp&nbsp<input type='button' onclick='read("+list[i].bid+")' id='modify' value='수정'>";
-				str += "&nbsp&nbsp<input type='button' onclick='eliminate("+list[i].bid+")' id='delete' value='삭제'>";
+				str += "&nbsp&nbsp&nbsp<input type='button' data-bid='"+list[i].bid+"' id='modify' value='수정'>";
+				str += "&nbsp&nbsp<input type='button' id='delete' data-bid='"+list[i].bid+"' value='삭제'>";
+				str += "&nbsp&nbsp<input type='button' id='reply' data-bid='"+list[i].bid+"' value='대댓글'>";
 				str += "<small class='pull-right text-muted'>"+replyService.displayTime(list[i].bdate)
 				+"</small></div>";
 				str += "	<p>"+list[i].bcontent+"</p></div></li>"; 
@@ -156,44 +123,82 @@ $(document).ready(function(){
 			
 			replyUL.html(str);
 			
-			showReplyList();
 		});
 	} // end showList
 	
-	function showReplyList(){
-		
-	}
+	var formObj = $("form[role='form']");
 	
+	$("input[type='button']").on("click", function(e){
+		var act = $(this).val();
+		if(act == "등록"){
+		  var reply = {
+			  bname: $("#bname").val(),
+			  btitle: $("#btitle").val(),
+			  bcontent: $("#bcontent").val(),
+			  bstep: $("#bstep").val(),
+			  bindent: $("#bindent").val()
+		   };
+		  
+		  replyService.add(reply, function(result){
+				 alert(result);
+				 $("#bcontent").val("");
+				 $("#bname").val("");
+				 $("#btitle").val("");
+				 $("#bstep").val("");
+				 $("#bindent").val("");
+				 showList();
+			  });
+		}
+		else if(act == "수정"){
+		   var reply = {
+			  bid: $("#bid").val(), 
+			  bcontent: $("#bcontent").val()
+		   };
+		   replyService.update(reply, function(result){
+			  alert(result);
+			  $("#bid").val("");
+			  $("#bcontent").val("");
+			  $("#bname").val("");
+			  $("#bid").val("");
+			  
+			  showList();
+		  });
+		}
+	});
+	
+ 	$(".chat").on("click", "li #modify", function(e){
+		  var bid = $(this).data("bid");
+		  replyService.get(bid, function(reply){
+			  $("#bname").val(reply.bname);
+			  $("#bname").attr("readonly",true);
+		      $("#btitle").val(reply.btitle);
+			  $("#btitle").attr("readonly",true);
+			  $("#bcontent").val(reply.bcontent);
+			  $("#bstep").val(reply.bstep);
+			  $("#bindent").val(reply.bindent);
+			  $("#bid").val(reply.bid);
+			  $(".btn").val("수정");
+		});
+	});	 
+ 	$(".chat").on("click", "li #delete", function(e){
+		  var bid = $(this).data("bid");
+		  if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+			replyService.remove(bid, function(result){
+			  alert(result);
+			  showList();
+			});
+			 
+		  }else{   //취소
+		     return false;
+		  }
+	});	 
 	
 });
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
-	var formObj = $("form[role='form']");
+
 	
-	$("button[type='submit']").on("click", function(e){
-		var act = $(this).val();
-		alert(act);
-		if(act == "등록"){
-			formObj.submit();
-		}
-		else if(act == "수정"){
-			formObj.attr("action", "/update");
-			formObj.submit();
-		}
-		//formObj.submit();
-	});
-	
-/* 	$(".chat").on("click", "li #modify", function(e){
-		  var rno = $(this).data("rno");
-		  alert(rno);
-	});	 */
-	
-	/* $(".chat").on("click", "li", function(e){
-		  var rno = $(this).data("rno");
-		  
-		  alert("테스트: " + rno);		  
-	}); */	
 });
 </script>
 </body>
