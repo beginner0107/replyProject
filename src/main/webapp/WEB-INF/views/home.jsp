@@ -10,48 +10,6 @@
 	<title>Home</title>
 </head>
 <body>
-<%-- <div align="center">
-  <h1>댓글 목록</h1>
-  <table border="1">
-  	<thead>
-  	  <tr>
-  	  	<td>댓글번호</td>
-  	  	<td>내용</td>
-  	  	<td>날짜</td>
-  	  	<td>조회수</td>
-  	  	<td>게시글 번호(부모)</td>
-  	  	<td>이어서 달리는 댓글</td>
-  	  	<td>들여쓰기</td>
-  	  </tr>
-  	</thead>
-  	<tbody>
-  	<c:forEach var="reply" items="${list }">
-  	  <tr>
-  	  	<td><c:out value="${reply.bid }"/></td>
-  	  	<td>
-  	  	<c:if test="${reply.bstep != 0 }">
-	  	  	<c:if test="${reply.bindent != 0 }">
-		  	  ㄴ
-		  	<c:forEach var="i" begin="0" end="${reply.bindent }">
-	    		<c:out value=">" />
-			</c:forEach>
-			</c:if>
-	  	  	<c:if test="${reply.bindent eq 0 }">
-		  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
-	  	  	</c:if>
-	  	  	<c:out value="${reply.bstep } 번 대댓글"/><br>
-  	  	</c:if>
-  	  	<c:out value="${reply.bcontent }"/></td>
-	  	  <td><fmt:formatDate pattern="yyyy-MM-dd" value="${reply.bdate }"/></td>
-  	  	<td><c:out value="${reply.bhit }"/></td>
-  	  	<td><c:out value="${reply.bgroup }"/></td>
-  	  	<td><c:out value="${reply.bstep }"/></td>
-  	  	<td><c:out value="${reply.bindent }"/></td>
-  	  </tr>
-  	 </c:forEach>
-  	</tbody>
-  </table>
-</div> --%>
 <h1 align="center">댓글 목록</h1>
 <div>
 	<ul class="chat">
@@ -76,13 +34,14 @@
 		<textarea id="bcontent" name="bcontent" rows="5" cols="100" id="bcontent"></textarea>
 	  </td>
 	  <td>
-	    <input type="button" style="width:100;height:100;" value="등록" class="btn btn-primary">
+	    <input type="button" id="crud" style="width:100;height:100;" value="등록" class="btn btn-primary">
+	    <input type="button" id="reset" style="width:100;height:100; display:none;" value="취소" class="btn btn-warning">
 	  </td>
 	</tr>
   </table>
   <input type="hidden" id="bid" value="">
-  <input type="hidden" name="bstep" value="0">
-  <input type="hidden" name="bindent" value="0" >
+  <input type="hidden" id="bstep" name="bstep" value="0">
+  <input type="hidden" id = "bindent" name="bindent" value="0" >
 </div>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -115,10 +74,19 @@ $(document).ready(function(){
 				str += list[i].bid+"]_작성자 : "+list[i].bname+"</strong>";
 				str += "&nbsp&nbsp&nbsp<input type='button' data-bid='"+list[i].bid+"' id='modify' value='수정'>";
 				str += "&nbsp&nbsp<input type='button' id='delete' data-bid='"+list[i].bid+"' value='삭제'>";
-				str += "&nbsp&nbsp<input type='button' id='reply' data-bid='"+list[i].bid+"' value='대댓글'>";
+				str += "&nbsp&nbsp<input type='button' id='reply' data-bid='"+list[i].bid+"' data-bindent='"+list[i].bindent+"' value='대댓글'>";
 				str += "<small class='pull-right text-muted'>"+replyService.displayTime(list[i].bdate)
 				+"</small></div>";
-				str += "	<p>"+list[i].bcontent+"</p></div></li>"; 
+				if(list[i].bindent != 0){
+					str += "<p>";
+					for(var j=0; j<list[i].bindent; j++){
+						str += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp";
+					}
+					str += list[i].bcontent+"</p></div></li>"; 
+				}else{
+					str += "<p>"+list[i].bcontent+"</p></div></li>"; 
+				}
+				
 			}
 			
 			replyUL.html(str);
@@ -138,6 +106,8 @@ $(document).ready(function(){
 			  bstep: $("#bstep").val(),
 			  bindent: $("#bindent").val()
 		   };
+		  
+		  console.log(reply);
 		  
 		  replyService.add(reply, function(result){
 				 alert(result);
@@ -177,7 +147,9 @@ $(document).ready(function(){
 			  $("#bstep").val(reply.bstep);
 			  $("#bindent").val(reply.bindent);
 			  $("#bid").val(reply.bid);
-			  $(".btn").val("수정");
+			  $("#crud").val("수정");
+			  $("#reset").show();
+			  $("#bcontent").focus();
 		});
 	});	 
  	$(".chat").on("click", "li #delete", function(e){
@@ -192,7 +164,28 @@ $(document).ready(function(){
 		     return false;
 		  }
 	});	 
-	
+ 	
+ 	$(".chat").on("click", "li #reply", function(e){
+ 		var bid = $(this).data("bid");
+ 		var bindent = $(this).data("bindent");
+ 		alert(bid + " 댓글에 대한 답글");
+ 		
+ 		console.log(bindent);
+ 		$("#bname").focus();
+ 		$("#bstep").val(bid);
+ 		$("#bindent").val(parseInt(bindent) + 1);
+ 		
+	});	
+ 	
+ 	$("#reset").on("click", function(e){
+ 		  $("#bid").val("");
+ 		  $("#bname").val("");
+ 		  $("#btitle").val("");
+ 		  $("#bcontent").val("");
+ 		  $("#bstep").val("");
+ 		  $("#bindent").val("");
+ 		
+	});	
 });
 </script>
 <script type="text/javascript">
