@@ -112,3 +112,15 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 * 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것이 옳은 것 같다.
 * 대댓글 등록하기 하면 부모 노드의 값을 가지고 댓글이 등록되는 부분. (계층형 댓글 등록 구현)
+
+<h2>3.22일 추가한 부분</h2>
+
+* 계층형 댓글을 등록하는 부분을 jquery 이벤트를 통해 구현
+* 취소 버튼 추가
+
+<img width="712" alt="image" src="https://user-images.githubusercontent.com/81161819/159438405-a137aafa-f970-4d01-afc7-01c3ba579884.png">
+
+
+추후에 추가할 부분
+
+* 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것
