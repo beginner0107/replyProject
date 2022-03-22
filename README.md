@@ -118,8 +118,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 * 계층형 댓글을 등록하는 부분을 jquery 이벤트를 통해 구현
 * 취소 버튼 추가
 
-<img width="712" alt="image" src="https://user-images.githubusercontent.com/81161819/159438405-a137aafa-f970-4d01-afc7-01c3ba579884.png">
-
+<img width="723" alt="image" src="https://user-images.githubusercontent.com/81161819/159438829-bb911471-01c0-4483-a0f5-7f6759b234d5.png">
 
 추후에 추가할 부분
 
