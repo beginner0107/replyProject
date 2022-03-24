@@ -123,3 +123,13 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 추후에 추가할 부분
 
 * 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것
+
+<h2>3.24일 추가한 부분</h2>
+
+* 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것을 추가하였다.
+
+<img width="478" alt="image" src="https://user-images.githubusercontent.com/81161819/159924498-2916c91e-db78-4c37-b6c0-c8fae9d04999.png">
+
+느낀 점
+* 이런식으로 다른 프로젝트에서 무한스크롤 기능까지 추가하면 좋을 것 같다.
+* 대댓글이 달린 댓글들을 숨기고 버튼 표시를 하여 누르면 대댓글이 열리는 그런 부분을 추가하면 좋을 것 같다.
