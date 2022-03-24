@@ -73,7 +73,7 @@ $(document).ready(function(){
 				str += " [";
 				str += list[i].bid+"]_작성자 : "+list[i].bname+"</strong>";
 				str += "&nbsp&nbsp&nbsp<input type='button' data-bid='"+list[i].bid+"' id='modify' value='수정'>";
-				str += "&nbsp&nbsp<input type='button' id='delete' data-bid='"+list[i].bid+"' value='삭제'>";
+				str += "&nbsp&nbsp<input type='button' id='delete' data-bname='"+list[i].bname+"' data-bid='"+list[i].bid+"' value='삭제'>";
 				str += "&nbsp&nbsp<input type='button' id='reply' data-bid='"+list[i].bid+"' data-bindent='"+list[i].bindent+"' value='대댓글'>";
 				str += "<small class='pull-right text-muted'>"+replyService.displayTime(list[i].bdate)
 				+"</small></div>";
@@ -155,10 +155,17 @@ $(document).ready(function(){
  	$(".chat").on("click", "li #delete", function(e){
 		  var bid = $(this).data("bid");
 		  if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-			replyService.remove(bid, function(result){
-			  alert(result);
-			  showList();
-			});
+			var bname = $(this).data("bname");
+		  	var input = prompt('작성자의 이름과 일치해야 삭제', '');
+		  	if(input  === bname){
+				replyService.remove(bid, function(result){
+				  alert(result);
+				  showList();
+				});
+		  	}else{
+		  		alert('작성자의 이름과 일치하지 않습니다.')
+		  		return false;
+		  	}
 			 
 		  }else{   //취소
 		     return false;
