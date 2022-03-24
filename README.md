@@ -131,5 +131,5 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 <img width="478" alt="image" src="https://user-images.githubusercontent.com/81161819/159924498-2916c91e-db78-4c37-b6c0-c8fae9d04999.png">
 
 느낀 점
-* 이런식으로 다른 프로젝트에서 무한스크롤 기능까지 추가하면 좋을 것 같다.
+* 이런식으로 다른 게시판+ 관련 프로젝트에서 무한스크롤 기능까지 추가하면 좋을 것 같다.
 * 대댓글이 달린 댓글들을 숨기고 버튼 표시를 하여 누르면 대댓글이 열리는 그런 부분을 추가하면 좋을 것 같다.
