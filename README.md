@@ -84,12 +84,11 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 <img width="375" alt="image" src="https://user-images.githubusercontent.com/81161819/157805605-3ba94147-2996-491c-8d56-5c1e615eecd8.png">
 
 <h2>3.19일 추가한 부분</h2>
-코로나 이슈로 잠깐 끊겼었다.
 
-* 댓글 수정과 삭제를 REST 방식이 아닌 Ajax를 통해 비동기적으로 구현해보았다. 
+* 댓글 수정과 삭제를 REST 방식이 아닌 Ajax를 통해 비동기적으로 구현해
 * 수정 버튼을 누르면 아래 댓글 입력 창에 작성자와 댓글 제목, 내용 등이 나타나고
-* 내용만 고칠 수 있으며 이를 수정할 수 있다.
-* 삭제는 바로 버튼을 누르면 삭제가 되게 만들어 놓았다.
+* 내용만 고칠 수 있으며 이를 수정 가능
+* 삭제는 바로 버튼을 누르면 삭제가 되게 만들어 놓았습니다.
 
 추후에 고칠 부분
 
@@ -100,8 +99,8 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 <h2>3.21일 추가한 부분</h2>
 
-* 댓글 등록, 수정, 삭제를 REST 방식으로 전환하였다.
-* 삭제 버튼을 누르면 바로 삭제가 이루어지지 않고 한번 물어보는 알림 창을 추가하였다.
+* 댓글 등록, 수정, 삭제를 REST 방식으로 전환
+* 삭제 버튼을 누르면 바로 삭제가 이루어지지 않고 한번 물어보는 알림 창을 추가
 
 
 <img width="951" alt="image" src="https://user-images.githubusercontent.com/81161819/159293418-289d11d0-d478-4513-904e-9de625197926.png">
