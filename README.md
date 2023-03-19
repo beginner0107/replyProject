@@ -1,26 +1,114 @@
-<h2>계층형 댓글 프로젝트</h2>
+# 프로젝트 설명
+### 대댓글 프로젝트
+#### 개발 필수요건
 
--> 간단하게 댓글 테이블만 구성해보았습니다<br>
-- Eclipse, jdk 1.8
-- db : oracleDB<br><br>
-- 사용 라이브러리
-1. log4j 1.2.17
-2. javax.servlet-api 3.1.0
-3. lombok 1.18.0
-4. HikariCP 2.7.4
-5. mybatis 3.4.6
-6. mybatis-spring 1.3.2
-7. spring-tx 
-8. spring-jdbc
-9. log4jdbc-log4j2-jdbc4 1.16
-10. spring-test
-11. jUnit 4.12
+#### 댓글관리
+- [X] 댓글을 작성할 수 있어야 한다.
+- [X] 댓글 목록을 볼 수 있어야 한다.
+- [X] 개별 댓글을 확인할 수 있어야 한다.
+- [X] 댓글을 수정할 수 있어야 한다.
+- [X] 댓글을 삭제할 수 있어야 한다.
 
-<h3>1. SQL</h3>
+# 사용한 기술
+- <b>JDK 1.8</b>
+- <b>Spring Legacy</b>
+- <b>HikariCP 2.7.4</b>
+- <b>mybatis 3.4.6</b>
+- <b>Oracle</b>
+
+# Project Structure
+```
+ ─src
+   └─ main
+      ├─ java
+      │  └─ org
+      │      └─ zerock
+      │          ├─ controller // 컨트롤러
+      │          ├─ domain // VO
+      │          ├─ mapper // 댓글 Mapper
+      │          ├─ service // 서비스 (비즈니스 로직)
+      │          └─ sql // SQL
+      ├─ resources
+      │  ├─ META-INF
+      │  └─ org
+      │      └─ zerock
+      │          └─ mapper // Mybatis 연동을 위한 xml
+      └─ webapp
+          ├─ resources
+          │  └─ js
+          └─ WEB-INF
+              ├─ classes
+              ├─ spring
+              │  └─ appServlet
+              └─ views // .jsp 화면 페이지
+
+```
+
+# ERD
+- 실제로 게시판 테이블은 생성하지 않았고, 게시판과 연동했을때 이러한 구조가 나옵니다.
+<img width="652" alt="image" src="https://user-images.githubusercontent.com/81161819/226182406-570e3c77-a76d-4d17-a033-a246194e5955.png">
+
+# API
+## Reply
+- 댓글 작성 `(POST /replies/new)`
+- 댓글 목록 보기 `(GET /replies/comment)`
+- 개별 댓글 보기 `(GET /replies/{bid})`
+- 댓글 수정 `(PUT/PATCH /replies/{bid})`
+- 댓글 삭제 `(PUT /replies/{bid})`
+
+# ISSUE, WORKFLOW
+## Rest API 리팩토링
+
+현재 컨트롤러는 Rest API 방식이 아니였습니다. 
+### 컨트롤러 Example
+```java
+@Controller
+public class ReplyController {
+	/* 빈 주입 */
+	@RequestMapping(value="/register", method = RequestMethod.POST)
+	public String register(ReplyVO vo) {
+	    /* 댓글 저장 후 메인페이지 */
+	}
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(ReplyVO vo) {
+	    /* 수정 후 메인페이지 */
+	}
+```
+
+Rest 방식으로 구현하기 위해 `RestController` 어노테이션을 붙여 리팩토링 하였습니다.
+### RestController Example
+```java
+@RestController
+public class RestReplyController {
+	@PostMapping(value="/new",
+				 consumes = "application/json",
+				 produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String>create(@RequestBody ReplyVO vo){
+		/* 댓글 저장 */
+	}
+}
+```
+
+## 계층형 쿼리
+대댓글을 구현하려면 계층형 쿼리를 구현해야 했습니다.
+```xml
+<select id="replyList" resultType="org.zerock.domain.ReplyVO">
+	SELECT * FROM MVC_BOARD
+	START WITH BSTEP=0
+	CONNECT BY PRIOR BID  = BSTEP  
+	ORDER SIBLINGS BY BSTEP  asc, BID desc
+</select>
+```
+- BID가 댓글이 달리면 계속 증가하는 `ID`라고 보면 됩니다. 
+- BSTEP은 BID를 가리키게 되는데, 이를 통해 계층형 쿼리를 작성할 수 있습니다.
+- BSTEP은 0을 가진 BID를 찾게 되어 자식 댓글을 찾게 됩니다.
+- 찾은 후 BSTEP을 기준으로 오름차순, BID 기준으로 내림차순을 하게 되는데 이는 BID 오름차순을 통해 최신 댓글이 위에 오게 되고, BSTEP을 기준으로 오름차순하면 나중에 쓴 댓글이 아래 달리게 됩니다.
+
+### SQL Example
 
 ```sql
-CREATE TABLE mvc_board(
-	bid number(4) PRIMARY KEY,  -- 게시판 PRIMARY KEY 
+CREATE TABLE mvc_board( 
+	bid number(4) PRIMARY KEY,  -- 댓글 PRIMARY KEY 
 	bname varchar2(20),   -- 작성자
 	btitle varchar2(100), -- 글 제목
 	bcontent varchar2(300), -- 글 내용
@@ -32,58 +120,16 @@ CREATE TABLE mvc_board(
 );
 ```
 
-<h3>2. replyMapper와 replyMapper.xml</h3>
-
-```java
-public interface ReplyMapper {
-	public int insert(ReplyVO vo);
-	public List<ReplyVO> replyList(); 
-}
-```
-<img width="607" alt="image" src="https://user-images.githubusercontent.com/81161819/157589049-1e9294a2-0fc4-429f-bbb0-05981815177f.png">
-- replyMapper Test코드 작성 : O<br>
-https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/mapper/ReplyMapperTest.java
-<h3>3. replyService </h3>
-
-```java
-public interface ReplyService {
-	public List<ReplyVO> getList();
-}
-```
-- replyService Test코드 작성 : O
-https://github.com/beginner0107/replyProject/tree/master/src/test/java/org/zerock/service
-<h3>4. replyController </h3>
-
-```java
-@Controller
-public class ReplyController {
-	
-	@Setter(onMethod = @__(@Autowired))
-	private ReplyService service;
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		
-		model.addAttribute("list", service.getList());
-		
-		return "home";
-	}
-	
-}
-```
-- ReplyController Test코드 작성 : O<br>
-
-https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zerock/controller/ReplyControllerTests.java
-<h3>댓글 화면</h3>
+## 댓글 화면 & 프로젝트 변경 사항
 <img width="576" alt="image" src="https://user-images.githubusercontent.com/81161819/157805898-afec7fe9-9981-465f-aab1-0528b9e93959.png">
 
-<h2>3.11일 추가한 부분</h2>
+### 추가한 부분
 
 * 댓글 목록을 REST로 불러오는 부분과, 계층적인 부분을 구현.
 
 <img width="375" alt="image" src="https://user-images.githubusercontent.com/81161819/157805605-3ba94147-2996-491c-8d56-5c1e615eecd8.png">
 
-<h2>3.19일 추가한 부분</h2>
+### 추가한 부분
 
 * 댓글 수정과 삭제를 REST 방식이 아닌 Ajax를 통해 비동기적으로 구현해
 * 수정 버튼을 누르면 아래 댓글 입력 창에 작성자와 댓글 제목, 내용 등이 나타나고
@@ -97,7 +143,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 <img width="823" alt="image" src="https://user-images.githubusercontent.com/81161819/159031868-4a8deb1c-82ab-4319-98e0-8c0231218a1c.png">
 
-<h2>3.21일 추가한 부분</h2>
+### 추가한 부분
 
 * 댓글 등록, 수정, 삭제를 REST 방식으로 전환
 * 삭제 버튼을 누르면 바로 삭제가 이루어지지 않고 한번 물어보는 알림 창을 추가
@@ -112,7 +158,7 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 * 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것이 옳은 것 같다.
 * 대댓글 등록하기 하면 부모 노드의 값을 가지고 댓글이 등록되는 부분. (계층형 댓글 등록 구현)
 
-<h2>3.22일 추가한 부분</h2>
+### 추가한 부분
 
 * 계층형 댓글을 등록하는 부분을 jquery 이벤트를 통해 구현
 * 취소 버튼 추가
@@ -123,12 +169,12 @@ https://github.com/beginner0107/replyProject/blob/master/src/test/java/org/zeroc
 
 * 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것
 
-<h2>3.24일 추가한 부분</h2>
+### 추가한 부분
 
 * 삭제할 때 작성자 이름을 입력하고 일치하면 삭제하는 식으로 구성하는 것을 추가하였다.
 
 <img width="478" alt="image" src="https://user-images.githubusercontent.com/81161819/159924498-2916c91e-db78-4c37-b6c0-c8fae9d04999.png">
 
-느낀 점
+# 느낀 점
 * 이런식으로 다른 게시판+ 관련 프로젝트에서 무한스크롤 기능까지 추가하면 좋을 것 같다.
 * 대댓글이 달린 댓글들을 숨기고 버튼 표시를 하여 누르면 대댓글이 열리는 그런 부분을 추가하면 좋을 것 같다.
